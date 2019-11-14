@@ -10,8 +10,6 @@
 
     </ul>
 
- 
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
@@ -29,9 +27,7 @@
             <i class="fas fa-close"></i> Logout
            
           </a>
-      
-         
-      
+           
         </div>
       </li>
 
@@ -45,7 +41,7 @@
     <a href="index3.html" class="brand-link">
       <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8"> -->
-      <span class="brand-text font-weight-light">Todo App (Admin)</span>
+      <span class="brand-text font-weight-light">Todo App (Student)</span>
     </a>
 
     <!-- Sidebar -->
@@ -65,25 +61,31 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       
           <li class="nav-item active">
-            <a href="<?=base_url("admin/dashboard");?>" class="nav-link active">
+            <a href="<?=base_url("students/dashboard");?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Todos
-            
+                My Todos
+              </p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="<?=base_url("students/todos");?>" class="nav-link">
+              <i class="nav-icon fas fa-tasks"></i>
+              <p>
+               Todos
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?=base_url("admin/students");?>" class="nav-link">
+            <a href="<?= base_url('students/profile');?>" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
-               Student
-            
+               Profile
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?=base_url("admin/exams");?>" class="nav-link">
+            <a href="<?=base_url("students/takeexam");?>" class="nav-link active">
               <i class="nav-icon fas fa-poll-h"></i>
               <p>
                Exams
@@ -106,11 +108,8 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Student Todo List</h1>
-            
+            <h1 class="m-0 text-dark">Take Examination</h1>
           </div><!-- /.col -->
-        
-
 
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -121,45 +120,31 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-3">
-            <a class="btn btn-primary" href="<?=base_url("admin/createtodo")?>"><i class="fa fa-plus"></i> Create Todo</a>
-            
-            <br><br>
-          </div>
-          <div class="col-md-6"></div>
-          <div class="col-md-3">
-              <input type="date" name="date" class="form-control" id="dateSearchTodoAdmin">
-          </div>
-          
          
-        <!-- start -->
         <div class="col-sm-12">
-         <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+          <br>
+            <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                  <thead>
                 <tr role="row">
-                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Todo ID</th>  
-                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Student Name</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Todo</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Todo Status</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Date</th>
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Exam ID</th>  
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Category</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Created Date</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Action</th>
               </tr>
             <tbody>
                   
                   <?php 
         
-                    if(count($todos) > 0){
-                      foreach ($todos as $todo) {
+                    if(count($exams) > 0){
+                      foreach ($exams as $exam) {
                         ?>
                           <tr role="row">
-                            <td class="sorting_1"><?= $todo["todo_id"];?></td>
-                            <td class="sorting_1"><?= $todo["fullname"];?></td>
-                            <td style="width:40%;"><?= $todo["content"];?></td>
-                            <td class="sorting_1"><?=$todo["completed"] ; ?></td>
-                            <td class="sorting_1"><?=$todo["created_date"] ; ?></td>
+                            <td class="sorting_1"><?= $exam["exam_id"];?></td>
+                            <td style="width:40%;"><?= $exam["category"];?></td>
+                            <td class="sorting_1"><?=$exam["created_date"] ; ?></td>
                             <td>
-                            <a href="<?=base_url("admin/edittodo")."/". $todo["todo_id"];?>"><i class="fa fa-edit"></i>Edit</a>
-                            <a style="color:#a42828;display:inline-block;margin-left:10px;" href="<?= base_url("admin/deletetodo")."/". $todo["todo_id"];?>"><i class="fa fa-trash"></i>Delete</a>
+                            <a href="<?=base_url("students/answerexam/");?><?= $exam["exam_id"];?>"><i class="fa fa-edit"></i> Take Exam</a>
+                            <!-- <a style="color:#a42828;display:inline-block;margin-left:10px;" href="<?= base_url("");?>"><i class="fa fa-trash"></i>Delete</a> -->
                             </td>
                         </tr>
                         <?php
@@ -168,7 +153,7 @@
                     else{
                       ?>
                         <tr>
-                          <td colspan="5">
+                          <td colspan="4">
                             no data found!
                           </td>
                         </tr>
@@ -180,6 +165,10 @@
 
               </tbody>  
               </table>
+              </div>
+              <div class="col-md-12">
+               
+                  
               </div>
         <!-- end -->
         </div>

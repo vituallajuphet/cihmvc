@@ -196,7 +196,9 @@
 
 <?php if($this->uri->segment(2) == "dashboard" || ($this->uri->segment(1) == "admin" && $this->uri->segment(2) == "")){?> 
     <script>
+
        $(document).ready(function (){
+           
         var tble =  $('#example2').DataTable();
             let b_url = "<?= base_url();?>";
             $("#dateSearchTodoAdmin").val("<?= date("Y-m-d");?>");
@@ -242,6 +244,246 @@
 <?php }?>
 
 
-  
+<?php if( str_replace(' ', '', $_SERVER["REQUEST_URI"]) == "/todo/admin/createexam"){?>  
+    <script>
+        $(document).ready(function(){
+            let b_url = "<?= base_url();?>";
+            var questions = [];
+
+           $('#btnAddQuestion').click(function(){
+              $("#question_modal").modal();
+           })
+
+           $("#selExamType").change(function(){
+               let val  = $(this).val();
+               if(val == "Choices"){
+                    $(".selChoices").show()
+                    $(".selNoChoices").hide()
+               }else if(val == "No Choices"){
+                    $(".selChoices").hide()
+                    $(".selNoChoices").show()
+               }
+               else{
+                  $(".selChoices").hide()
+                    $(".selNoChoices").hide()
+               }
+               
+           })
+    
+        $("#btnSaveExam").click(function(){
+            let category = $("#examtype").val()
+            if(category == ""){
+                viewMsg();
+                return false;
+            }
+            if(questions.length > 0){
+                let frmdata = new FormData();
+                let questJson = JSON.stringify(questions);
+                frmdata.append("category",category );
+                frmdata.append("question",  questJson);
+                 let saveExam = async () =>{
+                    let res =  await axios.post(b_url+"api/saveexam/", frmdata);
+                    if(res){
+                        if(res.data.code == 200){
+                            alert("saved!");
+                            window.location = "http://localhost/todo/admin/exams";
+                        }
+                        else{
+                            alert("something wrong");
+                        }
+                    }
+                }
+               saveExam();
+            }
+        })
+
+        function formData(obj) {
+            var formData = new FormData();
+            for (var key in obj) {
+              formData.append(key, obj[key]);
+            }
+            return formData;
+          }
+        
+
+        $("#btnASaveQuestion").on("click", function(e){
+           let selval = $("#selExamType").val();
+           let question = {}
+           if(selval){
+              if(selval == "Choices"){
+        
+                 question = {
+                    qtype:selval,
+                    question : $("#tbxQuestion").val(),
+                    choiceA : $("#tbxChoiceA").val(),
+                    choiceB : $("#tbxChoiceB").val(),
+                    choiceC : $("#tbxChoiceC").val(),
+                   Answer : $("#selAnswer").val()
+                 }
+
+                 if(!validateQuestion(question)){
+                    viewMsg();
+                 }
+                 else{
+                    questions.push(question);
+                    generateQuestion()
+
+                 }
+
+               }else if(selval == "No Choices"){
+                question = {
+                    qtype:selval,
+                    question : $("#tbxQuestion2").val(),
+                    Answer : $("#tbxAnswer").val()
+                 } 
+                 if(!validateQuestion(question)){
+                    viewMsg();
+                 }
+                 else{
+                    questions.push(question);
+                    generateQuestion()
+                 }
+               }
+           }
+           else{
+              viewMsg();
+           }
+        })
+        
+        function generateQuestion(){
+            let res = "";
+
+            questions.map((question, index) => {
+                let choices ="";
+                if(question.qtype == "Choices"){
+                    choices += `
+                    <div>
+                        <ul style="list-style:none;">
+                            <li>A: ${question.choiceA}</li>
+                            <li>B: ${question.choiceB}</li>
+                            <li>C: ${question.choiceC}</li>
+                            </ul>
+                    </div>
+                    `;
+                }
+                res += `
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                        <h6 class="mb-0">
+                            <a style="display:block;"href="#" data-toggle="collapse" data-target="#collapse${index+1}" aria-expanded="true" aria-controls="collapseOne">Question ${index+1}</a>
+                        </h6>
+                        </div>
+
+                        <div id="collapse${index+1}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <h6>Question:</h6>
+                                <p style="font-style:italic;">${question.question}</p>
+                                 ${choices}
+                                <h6>Answer: <strong>${question.Answer}</strong></h6>
+                            </div>
+                        </div>
+                    </div>`;
+                    
+            })
+            $("#question_modal").modal("hide");
+            $("#accordion").html(res);
+            $("#btnSaveExam").attr("disabled",false)
+            clearData();
+            
+        }
+        function viewMsg(){
+            $(".msgAlert").show();
+            setTimeout(() => {
+                $(".msgAlert").fadeOut();
+            }, 2000);
+        }
+
+        function clearData (){
+                $("#tbxQuestion").val("")
+                $("#tbxChoiceA").val("")
+                $("#tbxChoiceB").val("")
+                $("#tbxChoiceC").val("")
+                $("#selAnswer").val("")
+              $("#tbxQuestion2").val("")
+                $("#tbxAnswer").val("")
+                $("#selExamType").val("");
+        }
+        function validateQuestion (obj){
+           let res = true
+            Object.keys(obj).forEach(function(key) {
+                if( obj[key] == "" || obj[key] == undefined){
+                    res = false;
+                }
+           });
+           return res;
+        }
+      
+    })
+        
+    </script>
+<?php  }?>
+
+
+<?php 
+    if($this->uri->segment(2) == "answerexam"){
+        ?>
+            <script>
+            
+                $(document).ready(function(){
+                    let b_url = "<?= base_url();?>";
+                    let totalQuestion  = <?php echo count($exams);?>;
+                    let answered = 1;
+                    $(document).on("click",".btnCheckAnswer", function(){
+                        let questionid = $(this).attr("rel");
+                        let exam_id = $(this).attr("ref");
+                        let answer = $(this).siblings(".myAnswer").val(); 
+
+                        if(answer == ""){
+                           alert("please answer the question first!")
+                        }else{
+                            (async () => {
+                                let formdata = new FormData();
+                                formdata.append("questionid", questionid)
+                                formdata.append("exam_id", exam_id)
+                                let res =  await axios.post(b_url+"api/checkquestion/", formdata);
+                                if(res){
+                                    if(res.data.code == 200){
+                                     
+                                        let answer = $(this).siblings(".myAnswer").val(); 
+                                       
+                                        if(answer == res.data.data[0].answer){
+                                            alert("Your Answer is correct");
+                                            $(this).siblings(".correcRes").show().html("Correct");
+                                        }
+                                        else{
+                                            alert("Your Answer is Wrong, the correc answer is "+res.data.data[0].answer);
+                                            $(this).siblings(".correcRes").show().html("Wrong");
+                                        }
+                                        $(this).hide();
+                                        answered++;
+                                    }
+                                    else{
+                                      alert("something Wrong");
+                                    }
+                                }
+
+
+                            })()
+                       
+                            if(answered == totalQuestion){
+                              
+                            }
+
+                        }
+                    })
+                })
+            </script>
+
+        <?php
+    }
+
+?>
+
+
     </body>
 </html>

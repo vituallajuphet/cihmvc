@@ -108,6 +108,72 @@ class Api extends MY_Controller {
 		echo json_encode($msg);
 	}
 
+	public function check_question(){
+		if($this->input->post()){
+			$post = $this->input->post();
+
+			$options = array(
+				'select'=>'*',
+				'where' => array(
+					'exam_id' => $post["exam_id"],
+					'question_id' => $post["questionid"],
+				),
+			);
+			$data =  $this->MY_Model->getRows('tbl_exam_questions',$options);
+			
+			$msg = array(
+				"code" => 200,
+				"data"=> $data,
+				"message" =>'success'
+			);
+			echo json_encode($msg);
+		}
+	}
+
+
+	public function save_exam(){
+		if($this->input->post()){
+			$post = $this->input->post();
+			$category = $this->input->post("category");
+			$questions = json_decode($this->input->post("question"));
+			$inputs = array(
+				"category" => $category,
+				"created_date" => date("Y-m-d"),
+				"updated_date" => "0000-00-00",
+				"created_id" => $this->session->userdata("user_id"),
+				"type" => "",
+			  );	
+
+			$id =  $this->MY_Model->insert("tbl_exams", $inputs);
+			$msg = array();
+			if($id){
+				$parseQuestion = json_decode(json_encode($questions), true);
+			
+				for ($i = 0; $i < count($parseQuestion); $i++){
+					$arr = array(
+						"exam_id" => $id 
+						
+					);
+					$parseQuestion[$i] += $arr;	
+					if($parseQuestion[$i]["qtype"] != "Choices"){
+						$arr2 = array(
+							"choiceA" => "",
+							"choiceB" => "",
+							"choiceC" => "",
+						);
+						$parseQuestion[$i] += $arr2;	
+					}
+					$this->MY_Model->insert("tbl_exam_questions", $parseQuestion[$i]);
+					$msg = array( 'code' => 200, 'message' => "success" );
+				}
+			}else{
+				$msg = array( 'code' => 202, 'message' => "failed");
+
+			}
+			echo json_encode($msg);
+		}
+	}
+
 	// private functions
 	private function getTodoList($date){
 		if($date){

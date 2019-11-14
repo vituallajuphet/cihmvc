@@ -56,8 +56,20 @@ class Student extends MY_Controller {
 		$data["title"] ="Student Profile";
 		$this->load_page('profile', $data);
 	}
-	
-
+	public function take_exam(){
+		$data["user"] =  $this->session->userdata();
+		$id = $this->session->userdata("user_id");
+		$data["title"] ="Student Take Exam";
+		$data["exams"] =$this->getExams();
+		$this->load_page('TakeExam', $data);
+	}
+	public function answer_exam($exam_id){
+		$data["user"] =  $this->session->userdata();
+		$id = $this->session->userdata("user_id");
+		$data["title"] ="Student Take Exam";
+		$data["exams"] =$this->getExams($exam_id);
+		$this->load_page('AnswerExam', $data);
+	}
 	
 	public function update_todo(){
 		$post = $this->input->post();
@@ -94,6 +106,7 @@ class Student extends MY_Controller {
 				'select'=>'*',
 				'where' => array(
 					'todo_status' => 1,
+					'created_date' => date("Y-m-d"),
 				),
 				'join' => array('tbl_users'=> 'tbl_users.user_id = todo_list.user_id')
 
@@ -105,6 +118,7 @@ class Student extends MY_Controller {
 				'where' => array(
 					'tbl_users.user_id' => $user_id,
 					'todo_status' => 1,
+					'created_date' => date("Y-m-d"),
 				),
 				'join' => array('tbl_users'=> 'tbl_users.user_id = todo_list.user_id')
 			);
@@ -121,6 +135,8 @@ class Student extends MY_Controller {
 		}
 		
 		$data =  $this->MY_Model->getRows('todo_list',$options);
+
+	
 		return $data; 
 	}
 
@@ -153,7 +169,27 @@ class Student extends MY_Controller {
 		return	$this->MY_Model->update("todo_list", $set, $where);
 	
 	}
-	
-
-
+	private function getExams($exam_id=0, $user_id=0){
+		$options = [];
+		if($exam_id == 0 && $user_id==0){
+			
+			$options = array(
+				'select'=>'*',
+				'join' => array('tbl_exam_questions'=> 'tbl_exams.exam_id = tbl_exam_questions.exam_id'),
+				'group'=> array( 'tbl_exams.exam_id' )
+			);
+		}
+		else if($exam_id != 0 && $user_id==0){
+			
+			$options = array(
+				'select'=>'*',
+				'where' => array(
+					'tbl_exams.exam_id' => $exam_id
+				),
+				'join' => array('tbl_exam_questions'=> 'tbl_exams.exam_id = tbl_exam_questions.exam_id')
+			);
+		}
+		$data =  $this->MY_Model->getRows('tbl_exams',$options);
+		return $data;
+	}
 }

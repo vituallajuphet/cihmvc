@@ -84,6 +84,8 @@ $route['admin/rejectuser/(:num)'] = 'admin/reject_user/$1';
 
 // student
 $route['students/dashboard'] = 'Student';
+$route['students/takeexam'] = 'Student/take_exam';
+$route['students/answerexam/(:num)'] = 'Student/answer_exam/$1';
 $route['students'] = 'Student';
 $route['students/edittodos/(:num)'] = 'Student/edit_todos/$1';
 $route['students/updatetodo'] = 'Student/update_todo/';
@@ -97,4 +99,13 @@ $route['api/addtodoinstruction'] = 'api/todo_add_instruction/';
 $route['api/deletetodo'] = 'api/delete_todo/';
 $route['api/updatetodo'] = 'api/update_todo/';
 $route['api/todosinstruction/(:num)'] = 'api/get_todos_instruction/$1';
+$route['api/saveexam'] = 'api/save_exam';
+$route['api/checkquestion'] = 'api/check_question';
+
+
+// exam
+$route['admin/exams'] = 'admin/exams';
+$route['admin/viewexam/(:num)'] = 'admin/view_exam/$1';
+$route['admin/createexam'] = 'admin/create_exam';
+
 

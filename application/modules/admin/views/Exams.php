@@ -65,7 +65,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       
           <li class="nav-item active">
-            <a href="<?=base_url("admin/dashboard");?>" class="nav-link active">
+            <a href="<?=base_url("admin/dashboard");?>" class="nav-link ">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Todos
@@ -83,7 +83,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?=base_url("admin/exams");?>" class="nav-link">
+            <a href="<?=base_url("admin/exams");?>" class="nav-link active">
               <i class="nav-icon fas fa-poll-h"></i>
               <p>
                Exams
@@ -105,61 +105,39 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Student Todo List</h1>
+          <div class="col-sm-12">
+            <h1 class="m-0 text-dark">Exams</h1>
             
           </div><!-- /.col -->
+          <div class="col-mb-3">
+          <br>
+            <a href="<?=base_url("admin/createexam");?>" class="btn btn-primary">Create Exam</a>
+          </div>
         
-
-
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-3">
-            <a class="btn btn-primary" href="<?=base_url("admin/createtodo")?>"><i class="fa fa-plus"></i> Create Todo</a>
-            
-            <br><br>
-          </div>
-          <div class="col-md-6"></div>
-          <div class="col-md-3">
-              <input type="date" name="date" class="form-control" id="dateSearchTodoAdmin">
-          </div>
-          
-         
-        <!-- start -->
-        <div class="col-sm-12">
-         <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+          <div class="col-sm-12">
+          <br>
+            <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                  <thead>
                 <tr role="row">
-                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Todo ID</th>  
-                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Student Name</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Todo</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Todo Status</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Date</th>
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Exam ID</th>  
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Category</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Created Date</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Action</th>
               </tr>
             <tbody>
                   
                   <?php 
         
-                    if(count($todos) > 0){
-                      foreach ($todos as $todo) {
+                    if(count($exams) > 0){
+                      foreach ($exams as $exam) {
                         ?>
                           <tr role="row">
-                            <td class="sorting_1"><?= $todo["todo_id"];?></td>
-                            <td class="sorting_1"><?= $todo["fullname"];?></td>
-                            <td style="width:40%;"><?= $todo["content"];?></td>
-                            <td class="sorting_1"><?=$todo["completed"] ; ?></td>
-                            <td class="sorting_1"><?=$todo["created_date"] ; ?></td>
+                            <td class="sorting_1"><?= $exam["exam_id"];?></td>
+                            <td style="width:40%;"><?= $exam["category"];?></td>
+                            <td class="sorting_1"><?=$exam["created_date"] ; ?></td>
                             <td>
-                            <a href="<?=base_url("admin/edittodo")."/". $todo["todo_id"];?>"><i class="fa fa-edit"></i>Edit</a>
-                            <a style="color:#a42828;display:inline-block;margin-left:10px;" href="<?= base_url("admin/deletetodo")."/". $todo["todo_id"];?>"><i class="fa fa-trash"></i>Delete</a>
+                            <a href="<?=base_url("admin/viewexam/");?><?= $exam["exam_id"];?>"><i class="fa fa-eye"></i> View</a>
+                            <!-- <a style="color:#a42828;display:inline-block;margin-left:10px;" href="<?= base_url("");?>"><i class="fa fa-trash"></i>Delete</a> -->
                             </td>
                         </tr>
                         <?php
@@ -168,7 +146,7 @@
                     else{
                       ?>
                         <tr>
-                          <td colspan="5">
+                          <td colspan="4">
                             no data found!
                           </td>
                         </tr>
@@ -181,6 +159,21 @@
               </tbody>  
               </table>
               </div>
+
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+ 
+        <!-- start -->
+        <div class="col-sm-12">
+
+        </div>
         <!-- end -->
         </div>
         <!-- /.row -->

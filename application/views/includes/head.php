@@ -15,6 +15,7 @@
             #modal-default{display:none;}
             .card-instruction{ margin-bottom: 4px; }
             .card-instruction .card-header{ padding: 7px 1.25rem;}
+            .noCHoiceForm{display:none;}
             
          </style>
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">

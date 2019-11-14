@@ -64,6 +64,28 @@ class Admin extends MY_Controller {
 		$this->load_page('EditTodo', $data);
 	}
 
+	// exam
+	public function exams(){
+		$data["title"] ="Admin Exam";
+		$data["user"] =  $this->session->userdata();
+		$data["exams"] =  $this->getExams();
+		$this->load_page('exams', $data);
+	}
+	public function create_exam(){
+		$data["title"] ="Admin Add Exam";
+		$data["user"] =  $this->session->userdata();
+		$this->load_page('CreateExam', $data);
+	}
+
+	public function view_exam($exam_id){
+		$data["title"] ="Admin view Exam";
+		$data["user"] =  $this->session->userdata();
+		$data["exams"] =  $this->getExams($exam_id, 0);
+	
+		$this->load_page('ViewExam', $data);
+	}
+	
+
 	public function save_student(){
 		if($this->input->post()){
 			$email = $this->input->post("email");
@@ -374,5 +396,29 @@ class Admin extends MY_Controller {
 			return true;
 		}
 		return false;
+	}
+
+	private function getExams($exam_id=0, $user_id=0){
+		$options = [];
+		if($exam_id == 0 && $user_id==0){
+			
+			$options = array(
+				'select'=>'*',
+				'join' => array('tbl_exam_questions'=> 'tbl_exams.exam_id = tbl_exam_questions.exam_id'),
+				'group'=> array( 'tbl_exams.exam_id' )
+			);
+		}
+		else if($exam_id != 0 && $user_id==0){
+			
+			$options = array(
+				'select'=>'*',
+				'where' => array(
+					'tbl_exams.exam_id' => $exam_id
+				),
+				'join' => array('tbl_exam_questions'=> 'tbl_exams.exam_id = tbl_exam_questions.exam_id')
+			);
+		}
+		$data =  $this->MY_Model->getRows('tbl_exams',$options);
+		return $data;
 	}
 }

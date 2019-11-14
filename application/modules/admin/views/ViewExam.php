@@ -64,8 +64,8 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       
-        <li class="nav-item active">
-            <a href="<?=base_url("admin/dashboard");?>" class="nav-link active">
+          <li class="nav-item active">
+            <a href="<?=base_url("admin/dashboard");?>" class="nav-link ">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Todos
@@ -78,6 +78,15 @@
               <i class="nav-icon fas fa-user"></i>
               <p>
                Student
+            
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url("admin/exams");?>" class="nav-link active">
+              <i class="nav-icon fas fa-poll-h"></i>
+              <p>
+               Exams
             
               </p>
             </a>
@@ -96,9 +105,12 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Create Student Todo List</h1>
+          <div class="col-sm-12">
+            <h1 class="m-0 text-dark">View Exam</h1>
+            
           </div><!-- /.col -->
+        
+     
 
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -108,53 +120,83 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="row"> 
-         
+        <div class="row">
+ 
         <!-- start -->
         <div class="col-sm-12">
             <!-- formstart -->
             <div class="card card-default">
               <div class="card-header">
-                <h3 class="card-title">Fill Up Form</h3>
+                <h3 class="card-title">Examination Information:</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
    
-              <form role="form" method="post" action="<?=base_url("admin/save_todo")?>">
                 <div class="card-body">
                   <div class="row">
-                      <div class="col-md-12">
-                             <div class="form-group">
-                            <label for="exampleInputEmail1">Todo Content</label>
-                            <textarea name="content" required class="form-control"></textarea>
+                       
+                       <div class="col-md-3"> 
+                          <div class="form-group">
+                              <label for="exampleInputEmail1">Category:</label><br>
+                               <span><?= $exams[0]["category"]; ?></span>
                             </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="exampleInputFile" name="student">Assigned to:</label>
-                          <select class="form-control" name="user_id" required>    
-                                <?php 
-                                    foreach ($students as $student) {
-                                      ?>
-                                          <option value="<?=$student["user_id"];  ?>"><?=$student["fullname"]; ?></option>  
-                                      <?php
+                       </div>
+                       <div class="col-md-3"> 
+                          <div class="form-group">
+                              <label for="exampleInputEmail1">Created Date:</label><br>
+                               <span><?= $exams[0]["created_date"]; ?></span>
+                            </div>
+                       </div>
+                       <div class="col-md-6"> </div> 
+                
+                        <div class="col-md-12">
+      
+                        <label for="exampleInputEmail1">Questionaire:</label><br>
+                         
+                        <div id="accordion">
+
+                            <?php 
+                                if(count($exams) > 0){
+
+                                
+                                    $count =0;
+                                    foreach($exams as $exam){
+                                        $count++;
+                                        ?>
+
+                                            <div class="card">
+                                                <div class="card-header" id="headingOne">
+                                                <h6 class="mb-0">
+                                                    <a style="display:block;"href="#" data-toggle="collapse" data-target="#collapse<?=$count;?>" aria-expanded="true" aria-controls="collapseOne">Question <?=  $count;?></a>
+                                                </h6>
+                                                </div>
+
+                                                <div id="collapse<?=$count;?>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                    <div class="card-body">
+                                                        <h6>Question:</h6>
+                                                        <p style="font-style:italic;"><?= $exam["question"] ;?></p>
+
+                                                        <?php if($exam["qtype"] == "Choices"){?> 
+                                                            <div>
+                                                                <ul style="list-style:none;">
+                                                                    <li>A: <?= $exam["choiceA"]  ;?></li>
+                                                                    <li>B: <?= $exam["choiceB"]  ;?></li>
+                                                                    <li>C: <?= $exam["choiceC"]  ;?></li>
+                                                                    </ul>
+                                                            </div>
+                                                        <?php }?>
+
+                                                        <h6>Answer: <strong><?= $exam["answer"] ;?></strong></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php
                                     }
-                                ?>
-                          </select>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="exampleInputFile">Todo Status</label>
-                          <select name="completed" required  class="form-control">    
-                               <option value="Pending">Pending</option>
-                               <option value="In-Progress">In-Progress</option>
-                               <option value="Break">Break</option>
-                               <option value="For QA">For QA</option>
-                               <option value="Completed">Completed</option>
-                          </select>
-                          </div>
-                      </div>
+                                }
+                            ?>
+                            
+                        </div>
+                        </div>
 
                       <div class="col-md-12">
                         <?php 
@@ -181,10 +223,9 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Save</button>
-                  <a href="<?=base_url("admin/dashboard");?>" class="btn btn-danger" style="color:white;">Cancel</a>
+               
                 </div>
-              </form>
+
             </div>
             <!-- end start -->
         </div>
