@@ -201,7 +201,23 @@
                                 ?>
                             </div>
                             <div class="col-md-12">
-                                    <button class="BtnSubmitScore btn btn-success">Submit Score</button>
+                            <br>
+                            <br>
+                            <div class="card resultcard" style="display:none">
+                                <div class="card-header">
+                                   Result of Examination:
+                                </div>
+                                <div class="card-body">
+                                      Your Score: <span class="sScore"></span> out of <span class="sTotal"></span>
+                                      <br>
+                                      <br>
+                                      <button class="BtnSubmitScore btn btn-success">Submit Score</button>
+                                </div>
+                                
+
+                            </div>   
+
+                                   
                             </div>
                         </div>
 

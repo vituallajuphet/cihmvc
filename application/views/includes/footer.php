@@ -433,6 +433,7 @@
                     let b_url = "<?= base_url();?>";
                     let totalQuestion  = <?php echo count($exams);?>;
                     let answered = 1;
+                    let correct = 0;
                     $(document).on("click",".btnCheckAnswer", function(){
                         let questionid = $(this).attr("rel");
                         let exam_id = $(this).attr("ref");
@@ -454,6 +455,7 @@
                                         if(answer == res.data.data[0].answer){
                                             alert("Your Answer is correct");
                                             $(this).siblings(".correcRes").show().html("Correct");
+                                            correct++;
                                         }
                                         else{
                                             alert("Your Answer is Wrong, the correc answer is "+res.data.data[0].answer);
@@ -471,7 +473,11 @@
                             })()
                        
                             if(answered == totalQuestion){
-                              
+                               $(".resultcard").show();
+
+                               $(".sTotal").html(totalQuestion);
+                               $(".sScore").html(correct);
+
                             }
 
                         }
