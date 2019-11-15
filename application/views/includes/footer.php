@@ -428,12 +428,12 @@
     if($this->uri->segment(2) == "answerexam"){
         ?>
             <script>
-            
-                $(document).ready(function(){
                     let b_url = "<?= base_url();?>";
                     let totalQuestion  = <?php echo count($exams);?>;
                     let answered = 1;
                     let correct = 0;
+                $(document).ready(function(){
+                    
                     $(document).on("click",".btnCheckAnswer", function(){
                         let questionid = $(this).attr("rel");
                         let exam_id = $(this).attr("ref");
@@ -456,10 +456,13 @@
                                             alert("Your Answer is correct");
                                             $(this).siblings(".correcRes").show().html("Correct");
                                             correct++;
+                                            let html = `<span ><i class="fa fa-check" style="color:green"></i>  <strong>${res.data.data[0].answer} </strong> is correct. </span>`;
+                                            $(this).siblings(".correcRes").show().html(html);
                                         }
                                         else{
                                             alert("Your Answer is Wrong, the correc answer is "+res.data.data[0].answer);
-                                            $(this).siblings(".correcRes").show().html("Wrong");
+                                            let html = `<span ><i class="fa fa-times" style="color:red"></i> The correct answer is <strong>${res.data.data[0].answer} </strong> </span>`;
+                                            $(this).siblings(".correcRes").show().html(html);
                                         }
                                         $(this).hide();
                                         answered++;
@@ -483,6 +486,23 @@
                         }
                     })
                 })
+
+                $(".BtnSubmitScore").click(function(){
+                   let exam_id = <?= $exams[0]["exam_id"]; ?>;
+                   let user_id = <?= $this->session->userdata("user_id");?>;
+                   
+                   let results = {
+                       exam_id,
+                       user_id,
+                       totalItem: totalQuestion,
+                       score: correct,   
+                   }
+                })
+
+
+                function frmdta(obj){
+
+                }
             </script>
 
         <?php

@@ -130,6 +130,15 @@ class Api extends MY_Controller {
 		}
 	}
 
+	public function submit_exam_result(){
+		$post = $this->input->post();
+		if($post){
+			echo '<pre>';
+			print_r($post);
+			echo '</pre>';
+		}
+	}
+
 
 	public function save_exam(){
 		if($this->input->post()){

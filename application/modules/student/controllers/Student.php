@@ -61,6 +61,7 @@ class Student extends MY_Controller {
 		$id = $this->session->userdata("user_id");
 		$data["title"] ="Student Take Exam";
 		$data["exams"] =$this->getExams();
+		
 		$this->load_page('TakeExam', $data);
 	}
 	public function answer_exam($exam_id){
@@ -68,6 +69,9 @@ class Student extends MY_Controller {
 		$id = $this->session->userdata("user_id");
 		$data["title"] ="Student Take Exam";
 		$data["exams"] =$this->getExams($exam_id);
+		if(count($data["exams"])  ==0){
+			redirect(base_url("students/"));
+		}
 		$this->load_page('AnswerExam', $data);
 	}
 	

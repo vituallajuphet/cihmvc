@@ -181,7 +181,7 @@
                                             ?>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                    <strong><?= $count ;?></strong> <span style="font-style:italic;"><?= $exam["question"] ;?></span>
+                                                    <strong><?= $count ;?>.</strong> <span style="font-style:italic;"><?= $exam["question"] ;?></span>
                                                     </div>
                                                         <div class="col-md-3">
                                                         <br>
@@ -213,8 +213,6 @@
                                       <br>
                                       <button class="BtnSubmitScore btn btn-success">Submit Score</button>
                                 </div>
-                                
-
                             </div>   
 
                                    

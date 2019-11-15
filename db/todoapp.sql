@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2019 at 11:06 AM
+-- Generation Time: Nov 15, 2019 at 11:02 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -42,8 +42,7 @@ CREATE TABLE `tbl_exams` (
 --
 
 INSERT INTO `tbl_exams` (`exam_id`, `category`, `created_date`, `updated_date`, `created_id`, `type`) VALUES
-(12, 'Math', '2019-11-14', '0000-00-00', 36, ''),
-(13, 'Filipino', '2019-11-14', '0000-00-00', 36, '');
+(15, 'Math', '2019-11-15', '0000-00-00', 36, '');
 
 -- --------------------------------------------------------
 
@@ -67,11 +66,11 @@ CREATE TABLE `tbl_exam_questions` (
 --
 
 INSERT INTO `tbl_exam_questions` (`question_id`, `exam_id`, `question`, `answer`, `choiceA`, `choiceB`, `choiceC`, `qtype`) VALUES
-(20, 12, 'asd', 'aaa', '', '', '', 'No Choices'),
-(21, 12, 'aaasd', 'asda', '', '', '', 'No Choices'),
-(22, 13, 'who is the best?', 'A', 'opet', 'jupheter', 'opets', 'Choices'),
-(23, 13, 'who is the worst?', 'A', 'opet', 'opets', 'jupgets', 'Choices'),
-(24, 13, 'sino ang bobo?', 'B', 'opet', 'opets ', 'jupiter', 'Choices');
+(27, 15, '1 + 1 = ?', '2', '', '', '', 'No Choices'),
+(28, 15, '2 + 2 =?', '4', '', '', '', 'No Choices'),
+(29, 15, '3 + 3 = ?', '6', '', '', '', 'No Choices'),
+(30, 15, '5 x 6 = ?', '30', '', '', '', 'No Choices'),
+(31, 15, '6 x 6 = ?', '36', '', '', '', 'No Choices');
 
 -- --------------------------------------------------------
 
@@ -326,12 +325,12 @@ ALTER TABLE `todo_list`
 -- AUTO_INCREMENT for table `tbl_exams`
 --
 ALTER TABLE `tbl_exams`
-  MODIFY `exam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `exam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `tbl_exam_questions`
 --
 ALTER TABLE `tbl_exam_questions`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `tbl_exam_results`
 --
