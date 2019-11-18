@@ -349,6 +349,11 @@
               viewMsg();
            }
         })
+
+        $(".btnCategoryEdit").click(function(){
+            $("#modal_category").modal()
+        })
+        
         
         function generateQuestion(){
             let res = "";
@@ -505,11 +510,11 @@
  
                 }
             </script>
-
         <?php
     }
-
 ?>
+
+
 
 
     </body>

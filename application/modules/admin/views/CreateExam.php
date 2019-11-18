@@ -140,9 +140,15 @@
                               <label for="exampleInputEmail1">Category:</label>
                                 <select name="examtype" id="examtype" class="form-control" >
                                     <option value="">Please Select</option>
-                                    <option value="Math">Math</option>
-                                    <option value="Filipino">Filipino</option>
+                                    <?php 
+                                      foreach ($exam_categories as $cat) {
+                                        ?>
+                                           <option value="<?= $cat["category_name"];?>"><?= $cat["category_name"];?></option>
+                                        <?php
+                                      }
+                                    ?>
                                 </select>
+                                <a href="javascript:;" class="btnCategoryEdit"><i class="fa fa-edit"></i> Manage Category</a>
                             </div>
                        </div>
                        <div class="col-md-3"> </div> 
@@ -294,6 +300,63 @@
       <!-- /.modal-dialog -->
     </div>  
     <!-- end modal -->
+
+    <!-- start midal 2 -->
+    <div class="modal fade in" id="modal_category" style=" padding-right: 17px; display:none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Category List:
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                         <form class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                              <input type="text" required class="form-control" id="tbxCategory" placeholder="Category name...">
+                            </div>
+                            <button type="button" class="btn btn-primary mb-2 btnSaveCategory">Save</button>
+                          </form>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Created Date</th>
+                                    <th scope="col">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <?php 
+                                
+                                    foreach ($exam_categories as $cat) {
+                                      ?>
+                                        <tr>
+                                          <th scope="row"><?= $cat["category_id"];?></th>
+                                          <td><?= $cat["category_name"];?></td>
+                                          <td><?= $cat["created_date"];?></td>
+                                          <td><a href="javascript:;"><i class="fa fa-edit"></i></a></td>
+                                        </tr>
+                                      <?php
+                                    }
+                                  ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" id="" class="btn btn-primary pull-left" >Save</button> -->
+                </div>
+            </div>
+        </div>
+    </div>                     
+    <!-- end modal 2 -->
+
 
 
   <!-- Main Footer -->

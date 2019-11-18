@@ -74,6 +74,7 @@ class Admin extends MY_Controller {
 	public function create_exam(){
 		$data["title"] ="Admin Add Exam";
 		$data["user"] =  $this->session->userdata();
+		$data["exam_categories"] = $this->getCategories();
 		$this->load_page('CreateExam', $data);
 	}
 
@@ -260,6 +261,8 @@ class Admin extends MY_Controller {
 		redirect(base_url("admin/dashboard"));
 
 	}
+
+	
 	
 
 	public function save_todo(){
@@ -419,6 +422,17 @@ class Admin extends MY_Controller {
 			);
 		}
 		$data =  $this->MY_Model->getRows('tbl_exams',$options);
+		return $data;
+	}
+
+
+	// new 
+	private function getCategories(){
+		$options = array(
+			'select'=>'*',
+			'order_by' => 'category_name'
+		);
+		$data =  $this->MY_Model->getRows('tbl_category', $options);		
 		return $data;
 	}
 }
