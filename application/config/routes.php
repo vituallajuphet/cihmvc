@@ -102,6 +102,8 @@ $route['api/todosinstruction/(:num)'] = 'api/get_todos_instruction/$1';
 $route['api/saveexam'] = 'api/save_exam';
 $route['api/checkquestion'] = 'api/check_question';
 $route['api/submitresult'] = 'api/submit_exam_result';
+$route['api/savecategory'] = 'api/save_category';
+
 
 // exam
 $route['admin/exams'] = 'admin/exams';

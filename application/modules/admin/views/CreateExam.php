@@ -320,7 +320,7 @@
 
                           <div class="row">
                             <div class="col-md-12">
-                            <table class="table table-striped">
+                            <table class="table table-striped tbl-category">
                                 <thead>
                                   <tr>
                                     <th scope="col">ID</th>
@@ -338,13 +338,21 @@
                                           <th scope="row"><?= $cat["category_id"];?></th>
                                           <td><?= $cat["category_name"];?></td>
                                           <td><?= $cat["created_date"];?></td>
-                                          <td><a href="javascript:;"><i class="fa fa-edit"></i></a></td>
+                                          <td><a href="javascript:;"><i class="fa fa-edit"></i></a> <a style='color:red' href="javascript:;"><i class="fa fa-trash"></i></a</td>
                                         </tr>
                                       <?php
                                     }
                                   ?>
                                 </tbody>
                               </table>
+                            </div>
+                            <div class="col-md-12" >
+                              <div class="alertmsg" style="display:none;">
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                  That category name is already exist!
+                                </div>
+                              </div>
+                              
                             </div>
                           </div>
                 </div>

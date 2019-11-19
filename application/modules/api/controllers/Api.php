@@ -139,6 +139,45 @@ class Api extends MY_Controller {
 		}
 	}
 
+	public function save_category (){
+		$post = $this->input->post();
+		if($post){
+			if(!$this->isCategoryExist($post["categoryname"])){
+				$inputs = array(
+					"category_name" => $post["categoryname"],
+					"created_date" => date("Y-m-d"),
+					"updated_date" => "0000-00-00",
+					"category_status" => "1",
+					"created_id" => $this->session->userdata("user_id"),
+			    );	
+			   if($this->MY_Model->insert("tbl_category", $inputs) > 0){
+					$msg = array(
+						'code' => 200,
+						'message' => 'success',
+						'data'=> $this->getCategories()
+					);
+			   }else{
+				$msg = array(
+					'code' => 202,
+					'message' => 'insert failed',
+				); 
+			   }
+			}else{
+				$msg = array(
+					'code' => 202,
+					'message' => 'already exists',
+				);
+			}
+		}
+		else{
+			$msg = array(
+				'code' => 202,
+				'message' => 'something wrong',
+			);
+		}
+		echo json_encode($msg);
+	}
+
 
 	public function save_exam(){
 		if($this->input->post()){
@@ -184,6 +223,22 @@ class Api extends MY_Controller {
 	}
 
 	// private functions
+
+	private function isCategoryExist ($category){
+		$options = array(
+			'select' => 'category_name',
+			'where' => array('category_name' => $category)
+		);
+		$data =  $this->MY_Model->getRows('tbl_category',$options);
+
+		if(count($data) > 0){
+			return true;
+		}
+		return false;
+		
+	}
+
+
 	private function getTodoList($date){
 		if($date){
 			$options = array(
@@ -208,6 +263,16 @@ class Api extends MY_Controller {
 		);
 		$data = [];
 		$data =  $this->MY_Model->getRows('tbl_todolist_details',$options);
+		return $data;
+	}
+
+	private function getCategories (){
+		$options = array(
+			'select'=>'*',
+			'order_by' => 'category_name'
+		);
+
+		$data =  $this->MY_Model->getRows('tbl_category',$options);
 		return $data;
 	}
 	

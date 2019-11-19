@@ -422,6 +422,40 @@
            });
            return res;
         }
+
+        $(".btnSaveCategory").click(function(){
+            let category = $("#tbxCategory").val();
+            if(category != ""){
+                (async () => {
+                    let category = $("#tbxCategory").val();
+                    let frmdata = new FormData();
+                    frmdata.append("categoryname", category)
+                    let res = await axios.post(b_url+"api/savecategory/", frmdata);
+                    if(res.data.code == 200){
+                        let render = "";
+                        let resData = res.data.data
+                        resData.forEach(dta => {
+                            render += `
+                            <tr>
+                                <th scope="row">${dta.category_id}</th>
+                                <td>${dta.category_name}</td>
+                                <td>${dta.created_date}</td>
+                                <td><a href="javascript:;"><i class="fa fa-edit"></i></a> 
+                                <a style='color:red' href="javascript:;"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+                            `;
+                        });
+                        $(".tbl-category tbody").html(render);
+                    }else if(res.data.message == "already exists"){
+                        $(".alertmsg").show();  
+                     setTimeout(() => {
+                        $(".alertmsg").hide();  
+                     }, 2500);
+                    }
+              })()
+         }
+            
+        })
       
     })
         
