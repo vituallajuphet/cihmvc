@@ -92,6 +92,9 @@ $route['students/updatetodo'] = 'Student/update_todo/';
 $route['students/profile'] = 'Student/student_profile/';
 $route['students/todos'] = 'Student/view_todos/';
 $route['students/viewtodo/(:num)'] = 'Student/view_todo_info/$1';
+$route['students/examresults'] = 'Student/exam_results/';
+$route['students/examhistory'] = 'Student/exam_history/';
+$route['students/viewexamresult/(:num)'] = 'Student/view_exam_result/$1';
 
 // api's
 $route['api/todos/(:any)'] = 'api/todos/$1';
@@ -104,7 +107,6 @@ $route['api/checkquestion'] = 'api/check_question';
 $route['api/submitresult'] = 'api/submit_exam_result';
 $route['api/savecategory'] = 'api/save_category';
 $route['api/updatecategory'] = 'api/update_category';
-
 
 
 // exam

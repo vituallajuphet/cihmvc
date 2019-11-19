@@ -604,6 +604,35 @@
     }
 ?>
 
+ <?php 
+    $res = explode("/", $_SERVER["REQUEST_URI"]);
+    if(count($res) > 2){    
+        if($res[2]."/".$res[3] == "admin/viewexam"){
+            ?>
+                <script>
+                    $(document).ready(function(){
+                        let b_url = "<?= base_url();?>";
+                        $(".btnDeleteExam").click( function(){
+                           let con = confirm("Are you sure to delete?");
+                           if(con){
+                             
+                               (async () => {
+                                    let exam_id = $(this).attr("id");
+                                    let frmdata = new FormData();
+                                    console.log(frmdata)
+                                   let res = await axios.post(b_url+"api/deleteexam", frmdata);
+
+                                   console.log(res)
+                               })
+                           }
+                        })
+                    })
+                </script>
+            <?php
+        }
+    }
+ ?>
+
 
 
 

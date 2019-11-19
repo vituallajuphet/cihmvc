@@ -147,7 +147,11 @@
                                <span><?= $exams[0]["created_date"]; ?></span>
                             </div>
                        </div>
-                       <div class="col-md-6"> </div> 
+                       <div class="col-md-6"> 
+                       <label for="exampleInputEmail1">Action:</label><br>
+                       <a href="<?=base_url("admin/editexam/"). $exams[0]["exam_id"];?>"><i class="fa fa-edit"></i></a>
+                       <a href="#" style="color:red" class="btnDeleteExam" ref="<?= $exams[0]["exam_id"];?>"><i class="fa fa-trash"></i></a>
+                       </div> 
                 
                         <div class="col-md-12">
       

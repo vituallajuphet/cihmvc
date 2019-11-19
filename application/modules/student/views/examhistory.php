@@ -59,8 +59,9 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item active">
-            <a href="<?=base_url("admin/dashboard");?>" class="nav-link ">
+      
+          <li class="nav-item active">
+            <a href="<?=base_url("students/dashboard");?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 My Todos
@@ -68,7 +69,7 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a href="<?=base_url("admin/dashboard");?>" class="nav-link ">
+            <a href="<?=base_url("students/todos");?>" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>
                Todos
@@ -76,7 +77,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= base_url('students/profile');?>" class="nav-link active">
+            <a href="<?= base_url('students/profile');?>" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                Profile
@@ -84,7 +85,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?=base_url("students/takeexam");?>" class="nav-link">
+            <a href="<?=base_url("students/takeexam");?>" class="nav-link active">
               <i class="nav-icon fas fa-poll-h"></i>
               <p>
                Take Exam
@@ -107,7 +108,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">My Profile</h1>
+            <h1 class="m-0 text-dark">My Examination History</h1>
           </div><!-- /.col -->
 
         </div><!-- /.row -->
@@ -119,44 +120,65 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-               <div class="card">
-                    <div class="card-header">
-                       Student Information:
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <strong>Name:</strong>
-                                <br> <?= $user["fullname"]; ?>
-                            </div>
-                            <div class="col-md-6">
-                                <strong>Age:</strong>
-                                <br> <?= $user["age"]; ?>
-                            </div>
-                       
-                        </div>
-                        <br>
-                        <div class="row">  
-                            <div class="col-md-6">
-                                <strong>Email:</strong>
-                                <br> <?= $user["email"]; ?>
-                            </div>
-                            <div class="col-md-6">
-                                <strong>Username:</strong>
-                                <br> <?= $user["username"]; ?>
-                            </div>
-                           
-                            <div class="col-md-6">
-                            <br>
-                                <strong>User Type:</strong>
-                                <br> <?= $user["user_type"] == 1 ? "Admin" : "Student" ;?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+         
+        <div class="col-sm-12">
 
+         <br>
+            <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                 <thead>
+                <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Exam ID</th>  
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Student_ID</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Score</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Total Items</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Status</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Date</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Action</th>
+              </tr>
+            <tbody>
+                  
+                  <?php 
+        
+                    if(count($results) > 0){
+                      foreach ($results as $result) {
+                        
+                        ?>
+                          <tr role="row">
+                            <td class="sorting_1"><?= $result["exam_id"];?></td>
+                            <td style="sorting_1"><?= $result["student_id"];?></td>
+                            <td class="sorting_1"><?=$result["score"] ; ?></td>
+                            <td class="sorting_1"><?=count(json_decode($result["answers"])); ?></td>
+                            
+                            <td class="sorting_1"><?= $result["passed"];?></td>
+                            <td class="sorting_1"><?= $result["created_date"];?></td>
+                            <td>
+                            <a style="color:green;" href="<?=base_url("students/viewexamresult/");?><?= $result["result_id"];?>"><i class="fa fa-eye"></i> View </a>
+                            </td>
+                        </tr>
+                        <?php
+                      }
+                    }
+                    else{
+                      ?>
+                        <tr>
+                          <td colspan="4">
+                            no data found!
+                          </td>
+                        </tr>
+                      <?php
+                    }
+                  ?>
+
+                
+
+              </tbody>  
+              </table>
+              </div>
+              <div class="col-md-12">
+               
+                  
+              </div>
+        <!-- end -->
         </div>
         <!-- /.row -->
       </div>

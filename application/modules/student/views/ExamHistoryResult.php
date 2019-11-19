@@ -68,7 +68,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a href="<?=base_url("students/todos");?>" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>
@@ -88,8 +88,7 @@
             <a href="<?=base_url("students/takeexam");?>" class="nav-link active">
               <i class="nav-icon fas fa-poll-h"></i>
               <p>
-               Take Exam
-            
+               Exams
               </p>
             </a>
           </li>
@@ -108,7 +107,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Examinition in <?= $exams[0]["category"] ;?></h1>
+            <h1 class="m-0 text-dark">Examination Results:</h1>
           </div><!-- /.col -->
 
         </div><!-- /.row -->
@@ -123,54 +122,82 @@
         <div class="col-md-12">
                <div class="card">
                     <div class="card-header">
-                       Please answer the following with your best answer:
+                    <?php 
+                        $youranswer = json_decode($results[0]["answers"]);
+                        $answers = [];
+                        foreach ($results["questions"] as $result) {
+                         array_push($answers, $result["answer"]);
+                        }
+                        $total = count($youranswer);
+                        $score = getScore($youranswer, $answers);
+                    ?>
+                       <div class="row">
+                        <div class="col-md-6">
+                        <h5>Results Information:</h5>
+                       <div>Examination Category: <span style="font-weight:bold;"><?php echo $results[0]["category"];?></span></div>
+                       <div>Your Score : <?= $score;?> out of <?= $total;  ?></div>
+                       <div>
+                        Passing Rate: 75%<br>
+                        Your Score Rate: <span style="font-weight:bold;"><?php $rate = getRate($score, $total); echo $rate; ?>%</span> <br>
+                        Status: 
+                        <?php 
+                            if($rate  < 75){
+                                echo "<span style='color:red;'>Failed!</span>";
+                            }else if ($rate < 99 && $rate > 74){
+                                echo "<span style='color:green;font-weight:bold;'>Passed!</span>";
+                            }else{
+                                echo "<span style='color:green;font-weight:bold;'>Perfect!</span>";
+                            }
+                        ?>
+                       </div>
+                        </div>
+                        <div class="col-md-6">
+                            Date Created:  <span style="font-weight:bold;"  ><?= $results[0]["created_date"];?></span>
+                        </div>
+                       </div>
+                       
+                       <?php 
+                         function getRate($score, $total){
+                             $res = ($score / $total) * 100;
+                             return $res;
+                         }
+                       ?>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <span for="">Total Of Questions: <strong> <?= count($exams) ;?></strong> </span>
-                            </div>
-                            <div class="col-md-12">
-                                <span for="">Category: <strong> <?= $exams[0]["category"] ;?></strong> </span>
-                            </div>
-                           
-                            <div class="col-md-12">
-                            <form  action="<?=base_url("students/examresults/");?>" method="post">
-                            <input type="hidden" name="exam_id" value="<?=$exams[0]["exam_id"];?>">
-                            <hr>
-
-                                <?php 
+                            <!-- start here -->
+                            
+                            <?php 
                                 $count = 0;
-                                    foreach($exams as $exam){
+                                $index = 0;
+                                    foreach($results["questions"] as $result){
                                         $count++;
-                                        if($exam["qtype"] =="Choices"){
+                                        if($result["qtype"] =="Choices"){
                                             ?>
                                                 <div class="row">
                                                         <div class="col-md-12">
-                                                        <strong><?= $count ;?>.</strong> <span style="font-style:italic;"><?= $exam["question"] ;?></span>
+                                                        <strong><?= $count ;?>.</strong> <span style="font-style:italic;"><?= $result["question"] ;?></span>
                                                         </div>
                                                         <div class="col-md-12">
                                                         <br>
                                                             <ul style="list-style:none;">
-                                                                <li>A. <span><?= $exam["choiceA"] ;?></span></li>
-                                                                <li>B. <span><?= $exam["choiceB"] ;?></span></li>
-                                                                <li>C. <span><?= $exam["choiceC"] ;?></span></li>
+                                                                <li>A. <span><?= $result["choiceA"] ;?></span></li>
+                                                                <li>B. <span><?= $result["choiceB"] ;?></span></li>
+                                                                <li>C. <span><?= $result["choiceC"] ;?></span></li>
                                                     
 
                                                             </ul>
                                                         </div>
 
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-12">
                                                             <br>
-                                                            Answer: 
-                                                            <select required name="myAnswer<?=$count;?>" id="" class="form-control myAnswer">
-                                                                <option value="">Select Answer</option>
-                                                                <option value="A">A</option>
-                                                                <option value="B">B</option>
-                                                                <option value="C">C</option>
-                                                            </select>
+                                                             <!-- Your Answer:  <span><?= $youranswer[$index];?></span> -->
+                                                             <br> <br>
+                                                             <?= (isCorrect($answers[$index], $youranswer[$index])) ?
+                                                        "<div><i style='color:green' class='fa fa-check'></i> Correct!</div>" : 
+                                                        "<div><i  style='color:red' class='fa fa-times'></i> Wrong! The correct answer is `".$answers[$index]."`</div>";?>
+                                                       
                                                             <br>
-                                                            <!-- <button class="btn btn-primary btnCheckAnswer" rel="<?= $exam["question_id"]?>" ref="<?=  $exam["exam_id"] ;?>">Done</button> -->
+                                                            <!-- <button class="btn btn-primary btnCheckAnswer" rel="<?= $result["question_id"]?>" ref="<?=  $exam["exam_id"] ;?>">Done</button> -->
                                                             <br>
                                                             <div style="display:none;" class="correcRes"> Correct</div>
                                                             </div>
@@ -183,13 +210,18 @@
                                             ?>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                    <strong><?= $count ;?>.</strong> <span style="font-style:italic;"><?= $exam["question"] ;?></span>
+                                                    <strong><?= $count ;?>.</strong> <span style="font-style:italic;"><?= $result["question"] ;?></span>
                                                     </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-12">
                                                         <br>
-                                                        Answer:  <input required name="myAnswer<?=$count;?>" type="text" class="form-control myAnswer">
+                                                        Your Answer: <span><?= $youranswer[$index];?></span>
+                                                        <br>                                                      <br>
+                                                        <?= (isCorrect($answers[$index], $youranswer[$index])) ?
+                                                        "<div><i style='color:green' class='fa fa-check'></i> Correct!</div>" : 
+                                                        "<div><i  style='color:red' class='fa fa-times'></i> Wrong! The correct answer is `".$answers[$index]."`</div>";?>
+
                                                         <br>
-                                                        <!-- <button class="btn btn-primary btnCheckAnswer" rel="<?= $exam["question_id"]?>" ref="<?=  $exam["exam_id"] ;?>" class="btnCheckAnswer">Done</button> -->
+                                                        <!-- <button class="btn btn-primary btnCheckAnswer" rel="<?= $result["question_id"]?>" ref="<?=  $exam["exam_id"] ;?>" class="btnCheckAnswer">Done</button> -->
                                                         <br><div style="display:none;" class="correcRes">Correct</div>
                                                         </div>
                                                     <div class="col-md-12">
@@ -198,34 +230,29 @@
                                                     </div>
                                             <?php
                                         }
+                                        $index++;
                                     }
                                 
-                                ?>
-                            </div>
-                            <div class="col-md-12">
-                                    <button class="btn btn-primary" type="submit"> <i class="fa fa-check"></i> Submit</button>
-                            </div>
-                           
-                            <div class="col-md-12">
-                            <br>
-                            <br>
-                            <div class="card resultcard" style="display:none">
-                                <div class="card-header">
-                                   Result of Examination:
-                                </div>
-                                <div class="card-body">
-                                      Your Score: <span class="sScore"></span> out of <span class="sTotal"></span>
-                                      <br>
-                                      <br>
-                                      <button class="BtnSubmitScore btn btn-success">Submit Score</button>
-                                </div>
-                            </div>   
-                            </form>
-                                   
-                            </div>
-                        </div>
 
-                        
+                                    function isCorrect($correct, $youranswer){
+                                        if(strtolower($correct) == strtolower($youranswer)){
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+
+                                    function getScore($youranswer, $answers){
+                                        
+                                        $score = 0;
+                                        for ($i=0; $i < count($youranswer); $i++) { 
+                                            if(isCorrect($youranswer[$i], $answers[$i])){
+                                                $score++;
+                                            }
+                                        }
+                                        return $score;
+                                    }
+                                ?>
+                             <!-- end here -->
                     </div>
                 </div>
             </div>

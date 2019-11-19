@@ -88,7 +88,7 @@
             <a href="<?=base_url("students/takeexam");?>" class="nav-link active">
               <i class="nav-icon fas fa-poll-h"></i>
               <p>
-               Exams
+               Take Exam
             
               </p>
             </a>
@@ -108,7 +108,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Take Examination</h1>
+            <h1 class="m-0 text-dark">Examination List</h1>
           </div><!-- /.col -->
 
         </div><!-- /.row -->
@@ -122,6 +122,8 @@
         <div class="row">
          
         <div class="col-sm-12">
+
+          <a href="<?=base_url("students/examhistory");?>" class="btn btn-warning"> <i class="fa fa-clock"></i> My Exam History</a><br>
           <br>
             <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                  <thead>
@@ -129,6 +131,7 @@
                 <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Exam ID</th>  
                 <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Category</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Created Date</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Status</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Action</th>
               </tr>
             <tbody>
@@ -142,9 +145,13 @@
                             <td class="sorting_1"><?= $exam["exam_id"];?></td>
                             <td style="width:40%;"><?= $exam["category"];?></td>
                             <td class="sorting_1"><?=$exam["created_date"] ; ?></td>
+                            <td class="sorting_1"><?= $exam["status"] == 1 ? "done" : "pending" ; ?></td>
                             <td>
-                            <a href="<?=base_url("students/answerexam/");?><?= $exam["exam_id"];?>"><i class="fa fa-edit"></i> Take Exam</a>
-                            <!-- <a style="color:#a42828;display:inline-block;margin-left:10px;" href="<?= base_url("");?>"><i class="fa fa-trash"></i>Delete</a> -->
+                            <?php if($exam["status"] == 1){?>
+                            <a style="color:green;" href="<?=base_url("students/viewexamresult/");?><?= $exam["result_id"];?>"><i class="fa fa-eye"></i> View Result</a>
+                            <?php } else{ ?>
+                              <a href="<?=base_url("students/answerexam/");?><?= $exam["exam_id"];?>"><i class="fa fa-edit"></i> Take Exam</a>
+                            <?php }?>
                             </td>
                         </tr>
                         <?php
