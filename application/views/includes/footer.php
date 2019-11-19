@@ -423,7 +423,7 @@
            return res;
         }
 
-        $(".btnSaveCategory").click(function(){
+        $(document).on('click','.btnSaveCategory',function(){
             let category = $("#tbxCategory").val();
             if(category != ""){
                 (async () => {
@@ -433,19 +433,7 @@
                     let res = await axios.post(b_url+"api/savecategory/", frmdata);
                     if(res.data.code == 200){
                         let render = "";
-                        let resData = res.data.data
-                        resData.forEach(dta => {
-                            render += `
-                            <tr>
-                                <th scope="row">${dta.category_id}</th>
-                                <td>${dta.category_name}</td>
-                                <td>${dta.created_date}</td>
-                                <td><a href="javascript:;"><i class="fa fa-edit"></i></a> 
-                                <a style='color:red' href="javascript:;"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            `;
-                        });
-                        $(".tbl-category tbody").html(render);
+                        renderCategoryTable(res.data.data)
                     }else if(res.data.message == "already exists"){
                         $(".alertmsg").show();  
                      setTimeout(() => {
@@ -454,9 +442,77 @@
                     }
               })()
          }
-            
         })
-      
+        $(document).on("click", ".btnUpdateCategory", function(){
+           
+            let val = $("#tbxCategory").val();
+            if(val != "" ){
+                (async () =>{
+                        let cat_id = $(this).attr("ref");
+                        let val = $("#tbxCategory").val();
+                        let frmdata = new FormData();
+                        frmdata.append("category_name", val)
+                        frmdata.append("category_id", cat_id)
+                        let res = await axios.post(b_url+"api/updatecategory", frmdata);
+                        if(res.data.code == 200){
+                            renderCategoryTable(res.data.data)
+                            $(".btnUpdateCategory").removeClass("btnUpdateCategory").addClass("btnSaveCategory").text("Save").removeAttr("ref")
+                            $("#tbxCategory").val("")
+                            $(".btnCancelCategory").hide()
+                        } 
+                })()
+            }
+        }) 
+        $(document).on("click", ".btnEditCategory", function(){
+            $(".btnSaveCategory").removeClass("btnSaveCategory").addClass("btnUpdateCategory").text("Update").attr("ref", $(this).attr("ref"))
+                $(".btnCancelCategory").show();
+              let txt = $(this).parent("td").siblings(".catName").html();
+              $("#tbxCategory").val(txt)
+        }) 
+        $(document).on("click", ".btnDeleteCategory", function(){
+          let con = confirm("Are you sure to delete this?");
+          if (con){
+              (async () =>{
+                let cat_id = $(this).attr("ref");
+                let frmdata = new FormData();
+                frmdata.append("category_id", cat_id)
+                let res = await axios.post(b_url+"api/delete_category", frmdata);
+                if(res.data.code == 200){
+                    renderCategoryTable(res.data.data)
+                }
+              })()
+          }
+        }) 
+        $(document).on("click", ".btnCancelCategory", function(){
+            $(".btnUpdateCategory").removeClass("btnUpdateCategory").addClass("btnSaveCategory").text("Save").removeAttr("ref")
+            $("#tbxCategory").val("")
+            $(this).hide();
+        })  
+        $(".frmcategory").submit(function(e){
+            e.preventDefault();
+        })
+
+        function renderCategoryTable(data){
+            let render = "";
+            let categoriesList = "<option value=''>Please Select</option>";
+            data.forEach(dta => {
+                render += `
+                <tr>
+                    <th scope="row">${dta.category_id}</th>
+                    <td class="catName">${dta.category_name}</td>
+                    <td>${dta.created_date}</td>
+                    <td><a href="javascript:;" ref="${dta.category_id}" class="btnEditCategory"><i class="fa fa-edit"></i></a> 
+                    <a class="btnDeleteCategory" ref="${dta.category_id}" style='color:red' href="javascript:;"><i class="fa fa-trash"></i></a></td>
+                </tr>
+                `;
+                categoriesList += `<option value="${dta.category_name}">${dta.category_name}</option>`;
+            });
+            $(".tbl-category tbody").html(render);
+            $("#examtype").html(categoriesList);
+            
+        }
+
+        
     })
         
     </script>

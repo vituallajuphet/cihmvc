@@ -311,11 +311,12 @@
                     <span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                         <form class="form-inline">
+                         <form class="form-inline frmcategory">
                             <div class="form-group mx-sm-3 mb-2">
                               <input type="text" required class="form-control" id="tbxCategory" placeholder="Category name...">
                             </div>
                             <button type="button" class="btn btn-primary mb-2 btnSaveCategory">Save</button>
+                            <button  style="display:none;" type="button" class="btn btn-danger mb-2 mx-2 btnCancelCategory">Cancel</button>
                           </form>
 
                           <div class="row">
@@ -336,9 +337,10 @@
                                       ?>
                                         <tr>
                                           <th scope="row"><?= $cat["category_id"];?></th>
-                                          <td><?= $cat["category_name"];?></td>
+                                          <td class="catName" ><?= $cat["category_name"];?></td>
                                           <td><?= $cat["created_date"];?></td>
-                                          <td><a href="javascript:;"><i class="fa fa-edit"></i></a> <a style='color:red' href="javascript:;"><i class="fa fa-trash"></i></a</td>
+                                          <td><a href="javascript:;" ref="<?= $cat["category_id"];?>" class="btnEditCategory"><i class="fa fa-edit"></i></a> 
+                                         <a class="btnDeleteCategory" ref="<?= $cat["category_id"];?>" style='color:red' href="javascript:;"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                       <?php
                                     }

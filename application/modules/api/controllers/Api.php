@@ -178,6 +178,54 @@ class Api extends MY_Controller {
 		echo json_encode($msg);
 	}
 
+	public function delete_category (){
+		$post = $this->input->post();
+		if($post){
+			$where = array(
+				"category_id" => $post["category_id"]
+			);
+			if($this->MY_Model->delete("tbl_category", $where)){
+				$msg = array('code'=>200, 'message'=> "success", 'data' => $this->getCategories() );
+			}else{
+				$msg = array(
+					'code' => 202,
+					'message' => 'failed',
+				);
+			}	
+		}else{
+			$msg = array(
+				'code' => 202,
+				'message' => 'something wrong',
+			);
+		}
+		echo json_encode($msg);
+	}
+
+	public function update_category (){
+		$post = $this->input->post();
+		if($post){
+			$where = array(
+				"category_id" => $post["category_id"]
+			);
+			$set = array(
+				"category_name" => $post["category_name"]
+			);
+			if($this->MY_Model->update("tbl_category",$set, $where)){
+				$msg = array('code'=>200, 'message'=> "success", 'data' => $this->getCategories() );
+			}else{
+				$msg = array(
+					'code' => 202,
+					'message' => 'already exists',
+				);
+			}	
+		}else{
+			$msg = array(
+				'code' => 202,
+				'message' => 'something wrong',
+			);
+		}
+		echo json_encode($msg);
+	}
 
 	public function save_exam(){
 		if($this->input->post()){
