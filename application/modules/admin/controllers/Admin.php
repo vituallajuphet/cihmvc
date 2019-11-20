@@ -15,7 +15,6 @@ class Admin extends MY_Controller {
 		$this->load_page('index', $data);
 	}
 	
-
 	public function create_todo(){
 		$data["user"] =  $this->session->userdata();
 		$data["title"] ="Admin Create Todo";
@@ -409,6 +408,7 @@ class Admin extends MY_Controller {
 			
 			$options = array(
 				'select'=>'*',
+				'where' => array('tbl_exams.type !=' => 0),
 				'join' => array('tbl_exam_questions'=> 'tbl_exams.exam_id = tbl_exam_questions.exam_id'),
 				'group'=> array( 'tbl_exams.exam_id' )
 			);

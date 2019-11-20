@@ -9,11 +9,7 @@ class Login extends MY_Controller {
 	public function verify_account (){
 		$username = $this->input->post("username");
 		$password = $this->input->post("password");
-
 		if($username != "" || $password != "" ){
-	
-
-
 			$options = array(
 				'select'=>'*',
 				'where' => array(
@@ -23,11 +19,8 @@ class Login extends MY_Controller {
 				'join' => array('tbl_user_details'=> 'tbl_users.user_id = tbl_user_details.user_id')
 			);
 			
-			
 		
 			$data["users"] =  $this->MY_Model->getRows('tbl_users',$options, "obj");
-
-		
 
 		    if(count($data["users"]) > 0){
 				$user_data = array(
@@ -39,7 +32,6 @@ class Login extends MY_Controller {
 					'user_type' => $data["users"][0]->user_type,
 					'user_status' => $data["users"][0]->user_status,
 				);
-				
 				
 				if($data["users"][0]->user_type == 1 && $data["users"][0]->approved == 1 && $data["users"][0]->user_status == 1){
 					$this->session->set_userdata($user_data);

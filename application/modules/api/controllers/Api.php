@@ -227,9 +227,6 @@ class Api extends MY_Controller {
 		echo json_encode($msg);
 	}
 
-
-
-
 	public function save_exam(){
 		if($this->input->post()){
 			$post = $this->input->post();
@@ -240,7 +237,7 @@ class Api extends MY_Controller {
 				"created_date" => date("Y-m-d"),
 				"updated_date" => "0000-00-00",
 				"created_id" => $this->session->userdata("user_id"),
-				"type" => "",
+				"type" => "1",
 			  );	
 
 			$id =  $this->MY_Model->insert("tbl_exams", $inputs);
@@ -271,6 +268,26 @@ class Api extends MY_Controller {
 			}
 			echo json_encode($msg);
 		}
+	}
+
+	public function delete_exam (){
+		$post = $this->input->post();
+		if($post){
+			$where = array(
+				"exam_id" => $post["exam_id"]
+			);
+			$set = array(
+				"type" => "0"
+			);
+			if($this->MY_Model->update("tbl_exams",$set, $where)){
+				$msg = array('code'=>200, 'message'=> "success");
+			}else{
+				$msg = array( 'code' => 202, 'message' => "failed");
+			}
+		}else{
+			$msg = array( 'code' => 202, 'message' => "failed");
+		}
+		echo json_encode($msg);
 	}
 
 	// private functions

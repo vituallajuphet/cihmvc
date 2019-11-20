@@ -213,7 +213,7 @@
                          <tr role="row">
                             <td class="sorting_1">${todo.todo_id}</td>
                             <td class="sorting_1">${todo.fullname}</td>
-                            <td style="width:40%;">${todo.content}</td>
+                            <td style="width:25%;">${todo.content}</td>
                             <td class="sorting_1">${todo.completed}</td>
                             <td class="sorting_1">${todo.created_date}</td>
                             <td>
@@ -615,15 +615,15 @@
                         $(".btnDeleteExam").click( function(){
                            let con = confirm("Are you sure to delete?");
                            if(con){
-                             
                                (async () => {
-                                    let exam_id = $(this).attr("id");
+                                    let exam_id = $(this).attr("ref");
                                     let frmdata = new FormData();
-                                    console.log(frmdata)
-                                   let res = await axios.post(b_url+"api/deleteexam", frmdata);
-
-                                   console.log(res)
-                               })
+                                    frmdata.append("exam_id", exam_id)
+                                    let res = await axios.post(b_url+"api/deleteexam", frmdata);
+                                    if(res.data.code == 200){
+                                      window.location = b_url+"admin/exams";  
+                                    }
+                               })()
                            }
                         })
                     })

@@ -131,7 +131,6 @@
               <input type="date" name="date" class="form-control" id="dateSearchTodoAdmin">
           </div>
           
-         
         <!-- start -->
         <div class="col-sm-12">
          <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
@@ -154,7 +153,7 @@
                           <tr role="row">
                             <td class="sorting_1"><?= $todo["todo_id"];?></td>
                             <td class="sorting_1"><?= $todo["fullname"];?></td>
-                            <td style="width:40%;"><?= $todo["content"];?></td>
+                            <td style="width:25%;"><?= $todo["content"];?></td>
                             <td class="sorting_1"><?=$todo["completed"] ; ?></td>
                             <td class="sorting_1"><?=$todo["created_date"] ; ?></td>
                             <td>
@@ -167,11 +166,11 @@
                     }
                     else{
                       ?>
-                        <tr>
-                          <td colspan="5">
+                        <!-- <tr>
+                          <td colspan="6">
                             no data found!
                           </td>
-                        </tr>
+                        </tr> -->
                       <?php
                     }
                   ?>

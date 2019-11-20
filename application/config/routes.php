@@ -107,7 +107,7 @@ $route['api/checkquestion'] = 'api/check_question';
 $route['api/submitresult'] = 'api/submit_exam_result';
 $route['api/savecategory'] = 'api/save_category';
 $route['api/updatecategory'] = 'api/update_category';
-
+$route['api/deleteexam'] = 'api/delete_exam';
 
 // exam
 $route['admin/exams'] = 'admin/exams';

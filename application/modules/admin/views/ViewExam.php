@@ -149,7 +149,7 @@
                        </div>
                        <div class="col-md-6"> 
                        <label for="exampleInputEmail1">Action:</label><br>
-                       <a href="<?=base_url("admin/editexam/"). $exams[0]["exam_id"];?>"><i class="fa fa-edit"></i></a>
+                       <a href="javascript:;" ref="<?= $exams[0]["exam_id"];?>" class="btnEditExam"><i class="fa fa-edit"></i></a>
                        <a href="#" style="color:red" class="btnDeleteExam" ref="<?= $exams[0]["exam_id"];?>"><i class="fa fa-trash"></i></a>
                        </div> 
                 
@@ -161,23 +161,19 @@
 
                             <?php 
                                 if(count($exams) > 0){
-
-                                
                                     $count =0;
                                     foreach($exams as $exam){
                                         $count++;
                                         ?>
-
                                             <div class="card">
                                                 <div class="card-header" id="headingOne">
                                                 <h6 class="mb-0">
                                                     <a style="display:block;"href="#" data-toggle="collapse" data-target="#collapse<?=$count;?>" aria-expanded="true" aria-controls="collapseOne">Question <?=  $count;?></a>
                                                 </h6>
                                                 </div>
-
                                                 <div id="collapse<?=$count;?>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                                                     <div class="card-body">
-                                                        <h6>Question:</h6>
+                                                        <h6>Question: <span></span></h6>
                                                         <p style="font-style:italic;"><?= $exam["question"] ;?></p>
 
                                                         <?php if($exam["qtype"] == "Choices"){?> 
@@ -189,7 +185,6 @@
                                                                     </ul>
                                                             </div>
                                                         <?php }?>
-
                                                         <h6>Answer: <strong><?= $exam["answer"] ;?></strong></h6>
                                                     </div>
                                                 </div>
