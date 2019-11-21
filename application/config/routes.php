@@ -58,6 +58,10 @@ $route['translate_uri_dashes'] = FALSE;
 // user routes
 $route['register'] = 'register';
 $route['forgotpassword'] = 'forgotpassword';
+$route['forgotpassword/requestpassword'] = 'forgotpassword/request_new_password';
+$route['recoverpassword'] = 'forgotpassword/recover_password';
+$route['confirmpassword/(:any)'] = 'forgotpassword/confirm_password/$1';
+
 $route['verify'] = 'login/verify_account';
 $route['login'] = 'login';
 $route['register_account'] = 'register/save_account';

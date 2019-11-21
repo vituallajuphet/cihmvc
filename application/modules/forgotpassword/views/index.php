@@ -2,9 +2,9 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
 
-      <form action="recover-password.html" method="post">
+      <form action="<?=base_url("forgotpassword/requestpassword")?>" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" name="email" class="form-control" placeholder="Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -20,10 +20,10 @@
       </form>
 
       <p class="mt-3 mb-1">
-        <a href="login.html">Login</a>
+        <a href="<?=base_url("login");?>">Login</a>
       </p>
       <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="<?=base_url("register");?>" class="text-center">Register account</a>
       </p>
     </div>
     <!-- /.login-card-body -->
