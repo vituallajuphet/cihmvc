@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends MY_Controller {
 	public function index(){
-		$this->load_login_page('index');
+		$data["title"] = "Login Account";
+		$this->load_login_page('index', $data);
 	}
 
 	public function verify_account (){
@@ -42,16 +43,19 @@ class Login extends MY_Controller {
 					redirect(base_url("students/dashboard"));	
 				}
 				else if($data["users"][0]->approved == 0){
-					$this->session->set_flashdata('err', "Your account has not verified yet!");
+					$res = array('err'=>'Your account has not verified yet!', 'username'=> $username);
+					$this->session->set_flashdata('results', $res );
 					redirect(base_url("login"));
 				}
 				else{
-					$this->session->set_flashdata('err', "Incorrect Username / Password!");
+					$res = array('err'=>'Incorrect Username / Password!', 'username'=> $username);
+					$this->session->set_flashdata('results', $res );
 					redirect(base_url("login"));
 				}
 			}
 			else{
-				$this->session->set_flashdata('err', "Incorrect Username / Password!");
+				$res = array('err'=>'Incorrect Username / Password!', 'username'=> $username);
+				$this->session->set_flashdata('results', $res );
 				redirect(base_url("login"));
 			}
 			

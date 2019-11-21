@@ -56,10 +56,11 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 // user routes
-$route['user/register'] = 'register';
-$route['user/verify'] = 'login/verify_account';
-$route['user/login'] = 'login';
-$route['user/register_account'] = 'register/save_account';
+$route['register'] = 'register';
+$route['forgotpassword'] = 'forgotpassword';
+$route['verify'] = 'login/verify_account';
+$route['login'] = 'login';
+$route['register_account'] = 'register/save_account';
 
 
 

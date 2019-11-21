@@ -6,10 +6,10 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
-
+       <?php $msg = $this->session->flashdata('results');?>
       <form action="<?=base_url("user/verify")?>" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" required class="form-control" placeholder="Username">
+          <input type="text" value="<?=$msg["username"];?>" name="username" required class="form-control" placeholder="Username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-envelope"></span>
@@ -33,11 +33,17 @@
           <div class="col-6">
             <a href="<?= base_url("/user/register");?>" class="btn btn-success btn-block">Register</a>
           </div>
+          <div class="col-md-12">
+          <br>
+            <a href="<?=base_url("forgotpassword");?>">Forgot Password?</a>
+          </div>
           <!-- /.col -->
         </div>
       </form>
       <div style="text-align:center;margin-top:10px;">
-        <?php echo $this->session->flashdata('err'); ?>
+        <?php
+        
+        echo $msg['err']; ?>
       </div>
     
       <!-- /.social-auth-links -->
