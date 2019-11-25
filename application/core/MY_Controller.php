@@ -16,13 +16,14 @@ class MY_Controller extends MX_Controller {
 			}
 		} else {
 			if(!$this->session->has_userdata('user_id')){
-				if($route == "register"){
-					redirect(base_url('register'));					
-				}else if($route == "login"){
-					redirect(base_url('login'));
+				if($route == "forgotpassword"){
+					redirect(base_url('forgotpassword'));					
+				}else if($route == "register"){
+					redirect(base_url('register'));
 				}else{
-					redirect(base_url('forgotpassword'));
+					redirect(base_url('login'));
 				}
+				
 			}
 			else{
 				if($route == "admin" && $this->session->userdata("user_type") == 2){

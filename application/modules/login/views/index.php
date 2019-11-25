@@ -7,7 +7,7 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
        <?php $msg = $this->session->flashdata('results');?>
-      <form action="<?=base_url("user/verify")?>" method="post">
+      <form action="<?=base_url("verify")?>" method="post">
         <div class="input-group mb-3">
           <input type="text" value="<?=$msg["username"];?>" name="username" required class="form-control" placeholder="Username">
           <div class="input-group-append">
@@ -45,6 +45,20 @@
         
         echo $msg['err']; ?>
       </div>
+
+      <?php 
+        $success = $this->session->flashdata('success');
+        
+        if($success){
+          unset($_SESSION["temp_user_data"]);
+		     	$this->session->unset_userdata("temp_user_data");
+          ?>
+            <div class="alert alert-success mt-3" role="alert">
+                <?= $success['msg']?>
+            </div>
+          <?php
+        }
+      ?>
     
       <!-- /.social-auth-links -->
 

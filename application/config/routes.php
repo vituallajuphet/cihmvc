@@ -61,6 +61,10 @@ $route['forgotpassword'] = 'forgotpassword';
 $route['forgotpassword/requestpassword'] = 'forgotpassword/request_new_password';
 $route['recoverpassword'] = 'forgotpassword/recover_password';
 $route['confirmpassword/(:any)'] = 'forgotpassword/confirm_password/$1';
+$route['email-sent'] = 'forgotpassword/email_sent';
+$route['update-password'] = 'forgotpassword/update_password';
+
+
 
 $route['verify'] = 'login/verify_account';
 $route['login'] = 'login';
@@ -70,6 +74,7 @@ $route['register_account'] = 'register/save_account';
 
 // admin
 $route['admin/dashboard'] = 'admin';
+$route['admin/'] = 'admin';
 $route['admin/createtodo'] = 'admin/create_todo';
 $route['admin/savetodo'] = 'admin/save_todo';
 $route['admin/edittodo/(:num)'] = 'admin/edit_todo/$1';

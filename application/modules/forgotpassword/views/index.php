@@ -25,6 +25,12 @@
       <p class="mb-0">
         <a href="<?=base_url("register");?>" class="text-center">Register account</a>
       </p>
+      <?php $msg = $this->session->flashdata('results');?>
+      <?php if($msg){?> 
+        <div class="alert alert-danger mt-3" role="alert">
+           <?= $msg['msg']?>
+        </div>
+       <?php }?>
     </div>
     <!-- /.login-card-body -->
   </div>

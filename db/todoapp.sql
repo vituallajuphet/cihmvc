@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2019 at 11:02 AM
+-- Generation Time: Nov 25, 2019 at 11:06 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -25,6 +25,32 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_category`
+--
+
+CREATE TABLE `tbl_category` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(55) NOT NULL,
+  `created_date` date NOT NULL,
+  `updated_date` date NOT NULL,
+  `category_status` int(11) NOT NULL,
+  `created_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_category`
+--
+
+INSERT INTO `tbl_category` (`category_id`, `category_name`, `created_date`, `updated_date`, `category_status`, `created_id`) VALUES
+(1, 'Filipino', '2019-11-18', '0000-00-00', 1, 46),
+(2, 'Maths', '2019-11-19', '0000-00-00', 1, 36),
+(3, 'Science', '2019-11-19', '0000-00-00', 1, 36),
+(6, 'English', '2019-11-19', '0000-00-00', 1, 36),
+(8, 'TLE', '2019-11-19', '0000-00-00', 1, 36);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_exams`
 --
 
@@ -42,7 +68,7 @@ CREATE TABLE `tbl_exams` (
 --
 
 INSERT INTO `tbl_exams` (`exam_id`, `category`, `created_date`, `updated_date`, `created_id`, `type`) VALUES
-(15, 'Math', '2019-11-15', '0000-00-00', 36, '');
+(15, 'Math', '2019-11-15', '0000-00-00', 36, '1');
 
 -- --------------------------------------------------------
 
@@ -83,9 +109,18 @@ CREATE TABLE `tbl_exam_results` (
   `exam_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `score` int(11) NOT NULL,
-  `passed` int(55) NOT NULL,
-  `created_date` date NOT NULL
+  `passed` varchar(55) NOT NULL,
+  `answers` text NOT NULL,
+  `created_date` date NOT NULL,
+  `updated_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_exam_results`
+--
+
+INSERT INTO `tbl_exam_results` (`result_id`, `exam_id`, `student_id`, `score`, `passed`, `answers`, `created_date`, `updated_date`) VALUES
+(1, 15, 43, 4, 'Passed', '[\"2\",\"4\",\"6\",\"11\",\"36\"]', '2019-11-19', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -95,6 +130,20 @@ CREATE TABLE `tbl_exam_results` (
 
 CREATE TABLE `tbl_exam_result_details` (
   `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_forgotpassord_keys`
+--
+
+CREATE TABLE `tbl_forgotpassord_keys` (
+  `key_id` int(11) NOT NULL,
+  `value` text NOT NULL,
+  `status` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `email` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,7 +184,8 @@ INSERT INTO `tbl_todolist_details` (`id`, `todo_id`, `instruction`, `created_dat
 (31, 17, '<p>please take note of this:</p>\r\n\r\n<p><a href=\"https://reactjs.org/\" target=\"_blank\">https://reactjs.org/</a></p>\r\n\r\n<p>&nbsp;</p>\r\n', '2019-11-13', '2019-11-13', 36),
 (32, 21, '<p><strong>please sad update sa orc thanks!</strong></p>\r\n', '2019-11-13', '0000-00-00', 36),
 (33, 22, '<p>pag antos lang</p>\r\n', '2019-11-13', '0000-00-00', 36),
-(34, 23, '<p><strong>asdasd asd</strong></p>\r\n', '2019-11-13', '2019-11-13', 36);
+(34, 23, '<p><strong>asdasd asd</strong></p>\r\n', '2019-11-13', '2019-11-13', 36),
+(35, 27, '<p><strong>asd asd</strong></p>\r\n', '2019-11-19', '0000-00-00', 36);
 
 -- --------------------------------------------------------
 
@@ -160,7 +210,7 @@ CREATE TABLE `tbl_users` (
 INSERT INTO `tbl_users` (`user_id`, `fullname`, `username`, `password`, `user_type`, `user_status`, `approved`) VALUES
 (36, 'juphet Vitualla', 'test', 'test', 1, 1, 1),
 (42, 'John doe1111', 'student1', 'student2', 2, 1, 1),
-(43, 'James does', 'student2', 'student2', 2, 1, 1),
+(43, 'James does', 'student2', '12345', 2, 1, 1),
 (46, 'jessie samople', 'student5', 'student5', 2, 1, 1),
 (47, 'mark zuecke', 'student6', 'student6', 2, 1, 1),
 (48, 'juan dela cruz', 'student7', 'student7', 2, 1, 1),
@@ -201,7 +251,7 @@ CREATE TABLE `tbl_user_details` (
 INSERT INTO `tbl_user_details` (`id`, `user_id`, `email`, `age`) VALUES
 (1, 36, 'asd@sa.com', 23),
 (2, 42, 'asd@asd.com', 22),
-(3, 43, 'asdasd@asdasd.com', 34),
+(3, 43, 'prospteam@gmail.com', 34),
 (4, 46, 'asd@asdas.comasd', 22),
 (5, 47, 'ggasd@asdas.com', 22),
 (6, 48, 'ggg@ggg.com', 33),
@@ -263,11 +313,18 @@ INSERT INTO `todo_list` (`todo_id`, `user_id`, `content`, `created_date`, `creat
 (23, 59, 'sdad asd asda sdasd asd', '2019-11-13', 36, 1, 'Pending'),
 (24, 66, 'This is a todo', '2019-11-14', 36, 0, 'Pending'),
 (25, 66, 'test', '2019-11-14', 36, 1, 'For QA'),
-(26, 42, 'new', '2019-11-14', 36, 1, 'Pending');
+(26, 42, 'new', '2019-11-14', 36, 1, 'Pending'),
+(27, 43, 'asda sd asd', '2019-11-19', 36, 1, 'In-Progress');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_category`
+--
+ALTER TABLE `tbl_category`
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `tbl_exams`
@@ -292,6 +349,12 @@ ALTER TABLE `tbl_exam_results`
 --
 ALTER TABLE `tbl_exam_result_details`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_forgotpassord_keys`
+--
+ALTER TABLE `tbl_forgotpassord_keys`
+  ADD PRIMARY KEY (`key_id`);
 
 --
 -- Indexes for table `tbl_todolist_details`
@@ -322,6 +385,11 @@ ALTER TABLE `todo_list`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_category`
+--
+ALTER TABLE `tbl_category`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT for table `tbl_exams`
 --
 ALTER TABLE `tbl_exams`
@@ -335,17 +403,22 @@ ALTER TABLE `tbl_exam_questions`
 -- AUTO_INCREMENT for table `tbl_exam_results`
 --
 ALTER TABLE `tbl_exam_results`
-  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_exam_result_details`
 --
 ALTER TABLE `tbl_exam_result_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `tbl_forgotpassord_keys`
+--
+ALTER TABLE `tbl_forgotpassord_keys`
+  MODIFY `key_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
 -- AUTO_INCREMENT for table `tbl_todolist_details`
 --
 ALTER TABLE `tbl_todolist_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
@@ -360,7 +433,7 @@ ALTER TABLE `tbl_user_details`
 -- AUTO_INCREMENT for table `todo_list`
 --
 ALTER TABLE `todo_list`
-  MODIFY `todo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;COMMIT;
+  MODIFY `todo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
